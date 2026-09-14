@@ -1,6 +1,8 @@
 import re
 import regex
 
+from collections import Counter
+
 GPT2_PRETOKEN_PATTERN = (
     r"'(?:[sdmt]|ll|ve|re)"   # 1 缩写尾巴: 's 'd 'm 't 'll 've 're
     r"| ?\p{L}+"              # 2 字母串（含单前导空格，汉字也算 \p{L}）
@@ -60,57 +62,94 @@ def count_pairs(
      return pair_counts
 
 def train_bpe(
-          input_path: str,vocab_size:int,special_tokens:list[str]
-)->tuple[dict[int,bytes],list[tuple[bytes,bytes]]]:
-     text = load_text(input_path)
-     segments = split_special_tokens(text,special_tokens)
-     word_counts = build_word_counts(segments,special_tokens)
+    input_path: str, vocab_size: int, special_tokens: list[str]
+) -> tuple[dict[int, bytes], list[tuple[bytes, bytes]]]:
+    text = load_text(input_path)
+    segments = split_special_tokens(text, special_tokens)
+    word_counts = build_word_counts(segments, special_tokens)
 
-     # id 分配约定：特殊 token 占 0 起的前几个，256 个字节紧随其后，
-     # 合并产物从 next_id 继续——这就是为什么 merges 顺序就是规格
-     vocab: dict[int,bytes] = {}
-     next_id = 0
-     for tok in special_tokens:
-          vocab[next_id] = tok.encode("utf-8")
-          next_id += 1
-     for i in range(256):
-          vocab[next_id] = bytes([i])
-          next_id += 1
+    vocab: dict[int, bytes] = {}
+    next_id = 0
+    for tok in special_tokens:
+        vocab[next_id] = tok.encode("utf-8")
+        next_id += 1
+    for i in range(256):
+        vocab[next_id] = bytes([i])
+        next_id += 1
+    merges: list[tuple[bytes, bytes]] = []
 
-     merges: list[tuple[bytes,bytes]] = []
+    # ---- 三张索引表（一次性全量构建，之后只增量维护）----
+    pair_to_freq: dict[tuple[bytes, bytes], int] = {}      # pair -> 频率
+    pair_to_words: dict[tuple[bytes, bytes], set] = {}     # pair -> 含它的词（反查）
+    freq_to_pairs: dict[int, set] = {}                     # 频率 -> 该频率的 pair 集合
+    max_freq = 0
+    for word, freq in word_counts.items():
+        for i in range(len(word) - 1):
+            p = (word[i], word[i + 1])
+            pair_to_freq[p] = pair_to_freq.get(p, 0) + freq
+            pair_to_words.setdefault(p, set()).add(word)
+    for p, f in pair_to_freq.items():
+        freq_to_pairs.setdefault(f, set()).add(p)
+    if pair_to_freq:
+        max_freq = max(pair_to_freq.values())
 
-     # 合并主循环
-     while len(vocab) < vocab_size:
-          pair_counts = count_pairs(word_counts)
+    def bump(p: tuple[bytes, bytes], delta: int) -> None:
+        """pair 频率 += delta，同步迁移频率桶。"""
+        nonlocal max_freq
+        f = pair_to_freq.get(p, 0)
+        if f:
+            freq_to_pairs[f].discard(p)
+        nf = f + delta
+        if nf > 0:
+            pair_to_freq[p] = nf
+            freq_to_pairs.setdefault(nf, set()).add(p)
+            if nf > max_freq:
+                max_freq = nf
+        else:
+            pair_to_freq.pop(p, None)
 
-          if not pair_counts:
-               break
+    # ---- 主循环：选最优 → 只处理受影响词 ----
+    while len(vocab) < vocab_size and pair_to_freq:
+        # 选最优：桶顶取集合内 max，bytes 元组比较 = 字典序大者，C 速度
+        while not freq_to_pairs.get(max_freq):
+            max_freq -= 1
+        a, b = max(freq_to_pairs[max_freq])
+        merged = a + b
 
-          best_pair, _best_freq = max(
-               pair_counts.items(), key=lambda kv: (kv[1], kv[0])
-          )
-          a,b = best_pair
-          merged = a + b
+        # 快照迭代：取名单时不删索引，循环结束后 (a,b) 的集合必然已空
+        affected = list(pair_to_words.get((a, b), ()))
+        for word in affected:
+            freq = word_counts.pop(word)
+            # 词内 pair 去重计数：撤销按 出现次数×词频 扣，
+            # 但反向索引里每词每 pair 只摘一次
+            for p, cnt in Counter(zip(word, word[1:])).items():
+                bump(p, -freq * cnt)
+                s = pair_to_words[p]
+                s.discard(word)
+                if not s and p != (a, b):
+                    del pair_to_words[p]
+            # 替换（与朴素版同款双指针）
+            nw: list[bytes] = []
+            i = 0
+            while i < len(word):
+                if i < len(word) - 1 and word[i] == a and word[i + 1] == b:
+                    nw.append(merged)
+                    i += 2
+                else:
+                    nw.append(word[i])
+                    i += 1
+            new_word = tuple(nw)
+            word_counts[new_word] = word_counts.get(new_word, 0) + freq
+            for p, cnt in Counter(zip(new_word, new_word[1:])).items():
+                bump(p, freq * cnt)
+                pair_to_words.setdefault(p, set()).add(new_word)
+        pair_to_words.pop((a, b), None)  # 统一收尸
 
-          new_word_counts: dict[tuple[bytes,...],int]={}
-          for word,freq in word_counts.items():
-               new_word:list[bytes] = []
-               i = 0
-               while i < len(word):
-                    if i < len(word) - 1 and word[i] == a and word[i+1]==b:
-                         new_word.append(merged)
-                         i+=2
-                    else:
-                         new_word.append(word[i])
-                         i+=1
-               new_key = tuple(new_word)
-               new_word_counts[new_key] = new_word_counts.get(new_key,0)+freq
-          word_counts = new_word_counts
+        merges.append((a, b))
+        vocab[next_id] = merged
+        next_id += 1
 
-          merges.append((a,b))
-          vocab[next_id] = merged
-          next_id += 1
-     return vocab,merges
+    return vocab, merges
 
 
 
