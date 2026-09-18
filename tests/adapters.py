@@ -12,6 +12,8 @@ from cs336_basics.bpe_tokenizer import train_bpe
 from cs336_basics.tokenizer import Tokenizer
 from cs336_basics.get_batch import get_batch
 from cs336_basics import layers
+from cs336_basics.attention import multihead_self_attention
+from cs336_basics.rope import RotaryPositionalEmbedding
 
 def run_linear(
     d_in: int,
@@ -141,7 +143,10 @@ def run_multihead_self_attention(
         Float[Tensor, " ... sequence_length d_model"]: Tensor with the output of running your optimized, batched multi-headed attention
         implementation with the given QKV projection weights and input features.
     """
-    raise NotImplementedError
+    return multihead_self_attention(
+        in_features, q_proj_weight, k_proj_weight, v_proj_weight,
+        o_proj_weight, num_heads,
+    )
 
 
 def run_multihead_self_attention_with_rope(
@@ -181,7 +186,13 @@ def run_multihead_self_attention_with_rope(
         Float[Tensor, " ... sequence_length d_model"]: Tensor with the output of running your optimized, batched multi-headed attention
         implementation with the given QKV projection weights and input features.
     """
-    raise NotImplementedError
+    rope = RotaryPositionalEmbedding(
+        theta, d_model // num_heads, max_seq_len, device=in_features.device
+    )
+    return multihead_self_attention(
+        in_features, q_proj_weight, k_proj_weight, v_proj_weight,
+        o_proj_weight, num_heads, rope, token_positions,
+    )
 
 
 def run_rope(
@@ -203,7 +214,10 @@ def run_rope(
     Returns:
         Float[Tensor, " ... sequence_length d_k"]: Tensor with RoPEd input.
     """
-    raise NotImplementedError
+    rope = RotaryPositionalEmbedding(
+        theta, d_k, max_seq_len, device=in_query_or_key.device
+    )
+    return rope(in_query_or_key, token_positions)
 
 
 def run_transformer_block(
