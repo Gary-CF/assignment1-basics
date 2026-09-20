@@ -1,0 +1,66 @@
+         617637807 function calls (617637689 primitive calls) in 177.248 seconds
+
+   Ordered by: cumulative time
+   List reduced from 213 to 25 due to restriction <25>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    2.764    2.764  177.248  177.248 bpe_tokenizer.py:64(train_bpe)
+        1   90.409   90.409  167.282  167.282 bpe_tokenizer.py:30(build_word_counts)
+367501860   44.065    0.000   44.065    0.000 bpe_tokenizer.py:46(<genexpr>)
+ 83128600   14.277    0.000   14.277    0.000 {method 'get' of 'dict' objects}
+ 72631601    8.382    0.000    8.382    0.000 {method 'encode' of 'str' objects}
+ 72265190    6.839    0.000    6.839    0.000 {method 'group' of '_regex.Match' objects}
+   366411    0.389    0.000    4.781    0.000 _main.py:350(finditer)
+   366411    1.261    0.000    4.160    0.000 _main.py:459(_compile)
+  1224003    1.348    0.000    2.544    0.000 bpe_tokenizer.py:96(bump)
+   732952    0.794    0.000    2.231    0.000 enum.py:1562(__and__)
+        1    0.007    0.007    1.097    1.097 bpe_tokenizer.py:15(load_text)
+   297512    0.463    0.000    1.024    0.000 __init__.py:595(__init__)
+  2198876    0.637    0.000    1.002    0.000 enum.py:1544(_get_value)
+        1    0.838    0.838    0.838    0.838 {method 'decode' of 'bytes' objects}
+  4328842    0.506    0.000    0.666    0.000 {built-in method builtins.isinstance}
+  1928117    0.585    0.000    0.585    0.000 {method 'setdefault' of 'dict' objects}
+   297512    0.150    0.000    0.562    0.000 __init__.py:669(update)
+        1    0.000    0.000    0.476    0.476 bpe_tokenizer.py:20(split_special_tokens)
+        1    0.000    0.000    0.476    0.476 __init__.py:199(split)
+        1    0.476    0.476    0.476    0.476 {method 'split' of 're.Pattern' objects}
+  1928137    0.452    0.000    0.452    0.000 {method 'add' of 'set' objects}
+  1862938    0.451    0.000    0.451    0.000 {method 'discard' of 'set' objects}
+   732960    0.267    0.000    0.434    0.000 enum.py:726(__call__)
+   366411    0.241    0.000    0.357    0.000 <frozen importlib._bootstrap>:1390(_handle_fromlist)
+        1    0.251    0.251    0.251    0.251 {method 'read' of '_io.BufferedReader' objects}
+
+
+         617637807 function calls (617637689 primitive calls) in 177.248 seconds
+
+   Ordered by: internal time
+   List reduced from 213 to 25 due to restriction <25>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1   90.409   90.409  167.282  167.282 bpe_tokenizer.py:30(build_word_counts)
+367501860   44.065    0.000   44.065    0.000 bpe_tokenizer.py:46(<genexpr>)
+ 83128600   14.277    0.000   14.277    0.000 {method 'get' of 'dict' objects}
+ 72631601    8.382    0.000    8.382    0.000 {method 'encode' of 'str' objects}
+ 72265190    6.839    0.000    6.839    0.000 {method 'group' of '_regex.Match' objects}
+        1    2.764    2.764  177.248  177.248 bpe_tokenizer.py:64(train_bpe)
+  1224003    1.348    0.000    2.544    0.000 bpe_tokenizer.py:96(bump)
+   366411    1.261    0.000    4.160    0.000 _main.py:459(_compile)
+        1    0.838    0.838    0.838    0.838 {method 'decode' of 'bytes' objects}
+   732952    0.794    0.000    2.231    0.000 enum.py:1562(__and__)
+  2198876    0.637    0.000    1.002    0.000 enum.py:1544(_get_value)
+  1928117    0.585    0.000    0.585    0.000 {method 'setdefault' of 'dict' objects}
+  4328842    0.506    0.000    0.666    0.000 {built-in method builtins.isinstance}
+        1    0.476    0.476    0.476    0.476 {method 'split' of 're.Pattern' objects}
+   297512    0.463    0.000    1.024    0.000 __init__.py:595(__init__)
+  1928137    0.452    0.000    0.452    0.000 {method 'add' of 'set' objects}
+  1862938    0.451    0.000    0.451    0.000 {method 'discard' of 'set' objects}
+   366411    0.389    0.000    4.781    0.000 _main.py:350(finditer)
+   732960    0.267    0.000    0.434    0.000 enum.py:726(__call__)
+        1    0.251    0.251    0.251    0.251 {method 'read' of '_io.BufferedReader' objects}
+   366411    0.241    0.000    0.357    0.000 <frozen importlib._bootstrap>:1390(_handle_fromlist)
+   366411    0.232    0.000    0.232    0.000 {method 'finditer' of '_regex.Pattern' objects}
+   366411    0.230    0.000    0.230    0.000 _main.py:481(complain_unused_args)
+   732960    0.167    0.000    0.167    0.000 enum.py:1129(__new__)
+   297512    0.157    0.000    0.157    0.000 {built-in method _collections._count_elements}
+
+

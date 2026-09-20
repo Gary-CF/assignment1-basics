@@ -1,0 +1,22 @@
+{
+  "source": {
+    "path": "/home/gary/assignment1-basics/data/owt_train.txt",
+    "bytes": 11920511059,
+    "mtime_ns": 1789804290220043439
+  },
+  "scope": "entire input file; no corpus subsampling",
+  "requested_vocab_size": 32000,
+  "actual_vocab_size": 32000,
+  "merges": 31743,
+  "unique_pretokens": 6601892,
+  "pretoken_occurrences": 2471753092,
+  "training_wall_seconds_across_sessions": 6171.241928482999,
+  "current_process_peak_rss_gib": 0.10834884643554688,
+  "longest_ordinary_token": {
+    "byte_length": 64,
+    "bytes_repr": "b'\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82\\xc3\\x83\\xc3\\x82'",
+    "hex": "c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382c383c382",
+    "text_with_replacement": "ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ"
+  },
+  "database_bytes": 1360384000
+}

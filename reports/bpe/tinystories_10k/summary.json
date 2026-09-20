@@ -1,0 +1,27 @@
+{
+  "input": "/home/gary/assignment1-basics/data/_vocab_300mb.txt",
+  "input_bytes": 300000000,
+  "input_sha256": "41425a9c968de075468782424691ec914d9642a1dd42f2c7f845fba2675a758a",
+  "requested_vocab_size": 10000,
+  "actual_vocab_size": 10000,
+  "merges": 9743,
+  "training_wall_seconds": 177.36190297299981,
+  "profiling_enabled": true,
+  "timing_scope": "train_bpe only; includes cProfile overhead if enabled",
+  "peak_process_rss_kib": 1658460,
+  "peak_process_rss_gib": 1.5816307067871094,
+  "memory_scope": "Linux/WSL process high-water mark through training; excludes later pickle operations",
+  "longest_ordinary_token": {
+    "id": 9401,
+    "byte_length": 15,
+    "bytes_repr": "b' responsibility'",
+    "hex": "20726573706f6e736962696c697479",
+    "text_with_replacement": " responsibility"
+  },
+  "comparison": {
+    "path": "data/tinystories_tokenizer.pkl",
+    "vocab_equal": true,
+    "merges_equal": true,
+    "special_tokens_equal": true
+  }
+}
