@@ -1,0 +1,101 @@
+{
+  "tiny_on_tiny": {
+    "tokenizer": "data/tinystories_tokenizer.pkl",
+    "tokenizer_sha256": "c2926da105ed104b9345c09c84d473ecbaa227984ac1077365844918440adc30",
+    "utf8_bytes": 8733,
+    "tokens": 2106,
+    "bytes_per_token": 4.146723646723647,
+    "timing": {
+      "original": {
+        "cache_entries": 0,
+        "seconds_per_repeat": [
+          0.01046630900236778,
+          0.009881766003672965,
+          0.010140026002773084
+        ],
+        "median_seconds": 0.010140026002773084,
+        "bytes_per_second": 861240.395006059,
+        "estimated_825GB_hours": 266.0890826713422,
+        "scope": "encode only, documents already in RAM, fresh tokenizer/cache each repeat; single process"
+      },
+      "bounded_cache": {
+        "cache_entries": 32768,
+        "seconds_per_repeat": [
+          0.006217898000613786,
+          0.004652789000829216,
+          0.004630628995073494
+        ],
+        "median_seconds": 0.004652789000829216,
+        "bytes_per_second": 1876938.7561833584,
+        "estimated_825GB_hours": 122.09597458185756,
+        "scope": "encode only, documents already in RAM, fresh tokenizer/cache each repeat; single process"
+      }
+    }
+  },
+  "owt_on_owt": {
+    "tokenizer": "data/owt_bpe_32k/tokenizer.pkl",
+    "tokenizer_sha256": "b0fcf22a910fddf2e8682b568c5eb1477d7fe034567186452ace8fa9d759ed92",
+    "utf8_bytes": 148952,
+    "tokens": 35850,
+    "bytes_per_token": 4.15486750348675,
+    "timing": {
+      "original": {
+        "cache_entries": 0,
+        "seconds_per_repeat": [
+          0.14650084500317462,
+          0.214209651996498,
+          0.21779116499965312
+        ],
+        "median_seconds": 0.214209651996498,
+        "bytes_per_second": 695356.1551112325,
+        "estimated_825GB_hours": 329.56732313674286,
+        "scope": "encode only, documents already in RAM, fresh tokenizer/cache each repeat; single process"
+      },
+      "bounded_cache": {
+        "cache_entries": 32768,
+        "seconds_per_repeat": [
+          0.09189707600307884,
+          0.10480883300624555,
+          0.09684531400125707
+        ],
+        "median_seconds": 0.09684531400125707,
+        "bytes_per_second": 1538040.3433672236,
+        "estimated_825GB_hours": 148.9991258388927,
+        "scope": "encode only, documents already in RAM, fresh tokenizer/cache each repeat; single process"
+      }
+    }
+  },
+  "tiny_on_owt": {
+    "tokenizer": "data/tinystories_tokenizer.pkl",
+    "tokenizer_sha256": "c2926da105ed104b9345c09c84d473ecbaa227984ac1077365844918440adc30",
+    "utf8_bytes": 148952,
+    "tokens": 48882,
+    "bytes_per_token": 3.0471748291804754,
+    "timing": {
+      "original": {
+        "cache_entries": 0,
+        "seconds_per_repeat": [
+          0.16901274699921487,
+          0.168313260001014,
+          0.15071308999904431
+        ],
+        "median_seconds": 0.168313260001014,
+        "bytes_per_second": 884968.8966817152,
+        "estimated_825GB_hours": 258.95448701751144,
+        "scope": "encode only, documents already in RAM, fresh tokenizer/cache each repeat; single process"
+      },
+      "bounded_cache": {
+        "cache_entries": 32768,
+        "seconds_per_repeat": [
+          0.04980989400064573,
+          0.04207677399972454,
+          0.04784897399804322
+        ],
+        "median_seconds": 0.04784897399804322,
+        "bytes_per_second": 3112961.210121065,
+        "estimated_825GB_hours": 73.6169361576318,
+        "scope": "encode only, documents already in RAM, fresh tokenizer/cache each repeat; single process"
+      }
+    }
+  }
+}
